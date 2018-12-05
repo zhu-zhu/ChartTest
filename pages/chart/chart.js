@@ -10,11 +10,9 @@ export default {
     },
     data(){
         return {
-            foo: 'do',
             val: '50',
-            userdata: '',
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            canvasdata: ''
+            isloding: false,
+            canvasdata: '',
         }
     },
     methods: {
@@ -22,15 +20,32 @@ export default {
             try {
                 let {data} = await axios({
                     methods: 'get',
-                    url: 'https://jsonplaceholder.typicode.com/posts/1/comments'
+                    url: 'http://localhost:8080/getdata'
                 })
-                this.userdata = data
+                this.canvasdata = data
+                this.myChart()
             }catch(err) {
                 console.err(err)
             }
         },
         myChart() {
-            
+            document.querySelector('.canvasmain').innerHTML = '<canvas id="myChart"></canvas>'
+            let ctx = document.getElementById("myChart").getContext('2d');
+            let myChart = new Chart(ctx, this.canvasdata)
+        },
+        prompt() {
+            this.start()
+            this.isloding = true
+            let data = {
+                title: 'dnmd',
+                message: 'wdnmd成功点击',
+                type: 'success'
+            }
+            this.notification(data)
+            this.isloding = false
+        },
+        notification (data) {
+            this.$notify(data)
         }
     },
     mounted() {
