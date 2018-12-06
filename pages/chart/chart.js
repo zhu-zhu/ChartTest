@@ -10,9 +10,16 @@ export default {
     },
     data(){
         return {
-            val: '50',
+            val: 50,
             isloding: false,
             canvasdata: '',
+            message: 50
+        }
+    },
+    computed: {
+        reversedMessage () {
+            this.val = ~~this.val
+            return this.val
         }
     },
     methods: {
@@ -31,7 +38,7 @@ export default {
         myChart() {
             document.querySelector('.canvasmain').innerHTML = '<canvas id="myChart"></canvas>'
             let ctx = document.getElementById("myChart").getContext('2d');
-            let myChart = new Chart(ctx, this.canvasdata)
+            window.myChart = new Chart(ctx, this.canvasdata)
         },
         prompt() {
             this.start()
@@ -44,7 +51,7 @@ export default {
             this.notification(data)
             this.isloding = false
         },
-        notification (data) {
+        notification(data) {
             this.$notify(data)
         }
     },
